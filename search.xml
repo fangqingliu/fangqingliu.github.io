@@ -1,27 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2020/04/22/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2>
-<h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+    <title>Markdown语法简记</title>
+    <url>/2020/04/23/Markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E8%AE%B0/</url>
+    <content><![CDATA[<p>谢天谢地！！我终于搭好了自己的第一个博客哈哈哈哈哈哈！真是太开心了！自己的读书笔记一直用latex写完保存在电脑里，但是文件管理一直乱乱的，也不知自己理解对不对。。。Anyway！以后有自己的站点可以多多写东西啦！现在本人毅然决定将自己的处女篇献给Markdown（虽然也没写多少，慢慢补充嘛~）</p>
+<h3 id="特殊样式"><a class="markdownIt-Anchor" href="#特殊样式"></a> 特殊样式：</h3>
+<p><strong>加粗</strong>：<code>** **</code>或<code>__ __</code></p>
+<p><em>斜体</em>：<code>* *</code>或<code>_ _</code></p>
+<p><u>下划线</u>: <code>&lt;u&gt;</code> 下划线<code>&lt;/u&gt;</code></p>
+<p><code>代码</code>: ` `</p>
+<p><s>删除线</s>：<code>~~</code> 删除线<code>~~</code></p>
+<p>分割线：<code>***</code>或<code>---</code>或<code>____</code></p>
+<p>上下标：<code>^</code> 或 <code>_</code></p>
+<h3 id="特殊字符"><a class="markdownIt-Anchor" href="#特殊字符"></a> 特殊字符</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&amp;copy;      版权      </span><br><span class="line">&amp;reg;       注册商标</span><br><span class="line">&amp;trade;     商标</span><br><span class="line">&amp;nbsp;      空格</span><br><span class="line">&amp;amp;       和号</span><br><span class="line">&amp;quot;      引号</span><br><span class="line">&amp;apos;      撇号</span><br><span class="line">&amp;lt;        小于号</span><br><span class="line">&amp;gt;        大于号</span><br><span class="line">&amp;ne;        不等号</span><br><span class="line">&amp;le;        小于等于</span><br><span class="line">&amp;ge;        大于等于</span><br><span class="line">&amp;cent;      分</span><br><span class="line">&amp;pound;     磅</span><br><span class="line">&amp;euro;      欧元</span><br><span class="line">&amp;yen;       元</span><br><span class="line">&amp;sect;      节</span><br><span class="line">&amp;<span class="built_in">times</span>;     乘号</span><br><span class="line">&amp;divide;    除号</span><br><span class="line">&amp;plusmn;    正负号</span><br></pre></td></tr></table></figure>
+<h3 id="数学表达式"><a class="markdownIt-Anchor" href="#数学表达式"></a> 数学表达式</h3>
+<p>输入<code>$$</code>，然后按<code>enter</code>键即可输入公式</p>
+<h3 id="列表"><a class="markdownIt-Anchor" href="#列表"></a> 列表：</h3>
+<ul>
+<li>无序列表 <code>- 、* 、+</code></li>
+</ul>
+<ol>
+<li>有序列表
+<ol>
+<li>啦啦啦</li>
+<li>嘎嘎嘎</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>[ ] 未完成：<code>- [ ]</code></li>
+</ul>
+<h3 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(<span class="string">"That's amazing!!!"</span>)</span><br><span class="line"><span class="comment">#操作方法:'```'</span></span><br></pre></td></tr></table></figure>
+<h3 id="表格"><a class="markdownIt-Anchor" href="#表格"></a> 表格</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>表格创建方法：“| | | |”</p>
+<h3 id="插入图片"><a class="markdownIt-Anchor" href="#插入图片"></a> 插入图片</h3>
+<p>使用图床，方便上传并自动保存为markdown格式链接。</p>
+<h3 id="超链接"><a class="markdownIt-Anchor" href="#超链接"></a> 超链接</h3>
+<p><a href="https://www.baidu.com/" target="_blank" rel="noopener">百度</a>:<code>[百度](https://www.baidu.com/)</code></p>
+<p><a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a>:<code>&lt;url&gt;</code></p>
+<h2 id="typora的快捷键"><a class="markdownIt-Anchor" href="#typora的快捷键"></a> Typora的快捷键</h2>
+<ul>
+<li>加粗：<code>ctrl + B</code></li>
+<li>标题：<code>ctrl + H</code></li>
+<li>插入链接：<code>ctrl + K</code></li>
+<li>插入图片：<code>ctrl + shift + I</code></li>
+<li>无序列表： <code>ctrl + shift + L</code></li>
+<li>一级标题：<code>ctrl + 1</code></li>
+<li>切换原文和语法： <code>ctrl + /</code></li>
+</ul>
+<h4 id="blog不支持的部分功能"><a class="markdownIt-Anchor" href="#blog不支持的部分功能"></a> blog不支持的部分功能</h4>
+<p>目录：输入<code>[toc]</code>然后回车</p>
+<p>==高亮使用==</p>
+<p>注脚[^1]: <code>注脚[^1]</code></p>
+<p>已完成：<code>- [x]</code></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>test_my_site</title>
-    <url>/2020/04/22/test-my-site/</url>
-    <content><![CDATA[]]></content>
+      <categories>
+        <category>搭建Blog</category>
+      </categories>
+      <tags>
+        <tag>Markdown</tag>
+      </tags>
   </entry>
 </search>
