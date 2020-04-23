@@ -535,7 +535,8 @@
   
     <div class="comments" id="comments">
       
-        <div id="gitment-container"></div>
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
       
     </div>
 
@@ -887,23 +888,27 @@
       function renderGitment(){
         var gitment = new Gitmint({
             id: window.location.pathname, 
-            owner: 'fangqingliu# MUST HAVE, Your Github ID',
-            repo: 'fangqingliu.github.io# MUST HAVE, The repo you use to store Gitment comments',
+            owner: 'fangqingliu',
+            repo: 'fangqingliu.github.io',
             
             lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
             
             oauth: {
             
             
-                client_secret: '5107440056307f082d0a7641277cdda5c760349d# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+                client_secret: '5107440056307f082d0a7641277cdda5c760349d',
             
-                client_id: '5a75f1ab5ff94b2aaaac# MUST HAVE, Github client id for the Gitment'
+                client_id: '5a75f1ab5ff94b2aaaac'
             }});
         gitment.render('gitment-container');
       }
 
       
-      renderGitment();
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
       
       </script>
     
