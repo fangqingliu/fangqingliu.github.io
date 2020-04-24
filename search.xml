@@ -74,7 +74,8 @@
         <category>搭建Blog</category>
       </categories>
       <tags>
-        <tag>Markdown</tag>
+        <tag>编辑器</tag>
+        <tag>Markdown语法</tag>
       </tags>
   </entry>
   <entry>
@@ -122,7 +123,7 @@
 <li>讲一下word2vec中负采样</li>
 <li>讲一下Elmo、GPT、BERT</li>
 <li>pytorch：里搭网络框架的几种方式；使用GPU需要怎么设置；如何保存模型；</li>
-<li>linnux基本操作：如何看文件的行数</li>
+<li>linux基本操作：如何看文件的行数</li>
 <li>对于正负样本不均衡的情况怎么处理</li>
 </ul>
 <p>此次面试结束就一直在等。。学长跟我讲他们组长一直在对比（我猜测对我不是很满意），等到一个周结束之后，学长的内推就自动解锁了，一天晚上接到深圳的电话，说是预约第二天的视频面试，我还以为是原来的组，问了半天是一面，老师直接锁了我的简历，到这时候基本我留上海腾讯的几率就没有了。。我就硬着头皮面了。</p>
@@ -169,11 +170,40 @@
 <p>终于到阿里了。。。。</p>
 ]]></content>
       <categories>
-        <category>算法面经</category>
+        <category>算法</category>
       </categories>
       <tags>
         <tag>面经</tag>
         <tag>算法</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Blog 计划</title>
+    <url>/2020/04/24/plan/</url>
+    <content><![CDATA[<p>认真想了一下未来总结的规划哈哈哈~</p>
+<p>把目前熟悉的和在学的知识点大概列了一下，后续会慢慢补充吖~</p>
+<h1 id="blog-计划"><a class="markdownIt-Anchor" href="#blog-计划"></a> Blog 计划</h1>
+<h2 id="算法"><a class="markdownIt-Anchor" href="#算法"></a> 算法</h2>
+<h3 id="深度学习"><a class="markdownIt-Anchor" href="#深度学习"></a> 深度学习</h3>
+<ul>
+<li>GNN</li>
+<li>PU learning</li>
+<li>GAN</li>
+<li>word2vec、GloVe</li>
+<li>NLP预训练模型</li>
+<li>关键词挖掘、NER</li>
+<li>关系抽取</li>
+<li>DeepFM</li>
+</ul>
+<h3 id="统计学习与优化"><a class="markdownIt-Anchor" href="#统计学习与优化"></a> 统计学习与优化</h3>
+<ul>
+<li>LR、SVM</li>
+<li>GBDT、XGBoost</li>
+<li>HMM、CRF、MEMM、贝叶斯网络</li>
+<li>梯度下降方法</li>
+<li>凸优化</li>
+<li>假设检验</li>
+</ul>
+]]></content>
   </entry>
 </search>
