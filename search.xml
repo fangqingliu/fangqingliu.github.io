@@ -282,6 +282,7 @@
 <li>关键词挖掘、NER</li>
 <li>关系抽取</li>
 <li>DeepFM</li>
+<li>NN，Manifolds and Topology(colah’s Blog)</li>
 </ul>
 <h3 id="统计学习与优化"><a class="markdownIt-Anchor" href="#统计学习与优化"></a> 统计学习与优化</h3>
 <ul>
@@ -291,7 +292,195 @@
 <li>梯度下降方法</li>
 <li>凸优化</li>
 <li>假设检验</li>
+<li>指数分布族</li>
+<li>估计量的无偏性、相合性、有效性</li>
+<li>各种收敛的相互关系</li>
+<li>p-value定义及缺点</li>
+<li>中心极限定理与大数定律</li>
+<li>线性回归基本假设、最小二乘数值优化、SVD与QR分解</li>
+<li>MAP、MLE、最大熵</li>
+<li>EM算法</li>
+<li>lasso的缺点</li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>多模态模型构建</title>
+    <url>/2020/06/05/multi-modal-data/</url>
+    <content><![CDATA[<h1 id="avito-kaggle引入"><a class="markdownIt-Anchor" href="#avito-kaggle引入"></a> Avito-kaggle引入</h1>
+<p>Avito是kaggle上一个关于商品供求的多模态数据集，要求以文本数据（商品的标题、描述等文本信息）图像数据（商品图片）以及结构化数据（历史需求数据等）为输入源，预测商品需求，以使得卖家可以有方向性地更好地优化自己的商品列表，以免投入过多的成本。</p>
+<h2 id="first-place-solution"><a class="markdownIt-Anchor" href="#first-place-solution"></a> First place solution</h2>
+<p><a href="https://www.kaggle.com/c/avito-demand-prediction/discussion/59880#349563" target="_blank" rel="noopener">dance with ensemble</a></p>
+<p><strong>KeyPoints</strong>: feature engineering, NN, xgb, lgb, stacking(build diversified models)</p>
+<p><strong>FrameWork:</strong></p>
+<ul>
+<li>
+<p>First layer: lgb, NN, xgb;</p>
+</li>
+<li>
+<p>Second layer: lgb, xgb, NN</p>
+</li>
+<li>
+<p>Final layer: NN</p>
+</li>
+</ul>
+<h3 id="nn"><a class="markdownIt-Anchor" href="#nn"></a> NN</h3>
+<h4 id="exploring-procedure"><a class="markdownIt-Anchor" href="#exploring-procedure"></a> Exploring procedure:</h4>
+<p>Considering text, categorical, numerical, images features.</p>
+<ul>
+<li>Baseline: considering numerical features and <strong>categorical embedding</strong></li>
+<li>including title and description with RNN, with fastText pretrained input embedding. Self training fastText embedding on train+test</li>
+<li>including image features, with VGG16 top layer. <strong>set a separate layer before merging text, image, categorical, numerical features togethre</strong></li>
+<li>try different models for text and image: Text models: LSTM, CNN, Attention; Image models: ResNet50 middle layer(<strong>what is middle layer?</strong>)</li>
+<li>Fine-tuning: dropout, BNs</li>
+<li>considering more features</li>
+<li>trick: save models along the way and train a fully connected NN on top of them(kind of bagging somehow)<img src="https://pbs.twimg.com/media/DgvX3pWUYAAlCAK.jpg:large" alt="NN Model" /></li>
+</ul>
+<h4 id="summary"><a class="markdownIt-Anchor" href="#summary"></a> Summary:</h4>
+<ul>
+<li>For categorical variables: embedding each categorical, and then using dense layer to aggregate these dense vectors.</li>
+<li>For numerical fearues: feature engineering is <strong>important</strong>.</li>
+<li>For image data: using pretrained models to extract features.</li>
+<li>For Text data: using FastText to embed text data, and then using LSTM to extract features.</li>
+</ul>
+<h4 id="some-other-creative-ideas-about-this-framework"><a class="markdownIt-Anchor" href="#some-other-creative-ideas-about-this-framework"></a> Some other creative ideas about this framework??</h4>
+<p>to be continued…</p>
+<h3 id="xgb-and-lgb"><a class="markdownIt-Anchor" href="#xgb-and-lgb"></a> XGB and LGB</h3>
+<p><strong>Feature engineering:</strong></p>
+<ul>
+<li>text features: tf-idf for all xgb models, svd and <strong>oof ridge features(what’s that??)</strong> for all lgb models</li>
+<li>image features: image statistics(<strong>measuring image quality: dulless, whiteness, average pixel width, dominant/average color of the image , width/height/size, blurrness</strong>); features from ResNet 50, InceptionV3 and Xception(including the predicted categories as new feature), features from vgg16, 512 raw features+first 15 PCA features, keypoint features(<strong>imagetop1</strong>, some kind of classification result, **how to build a similar feature with significance? **).</li>
+<li>categorical features: count unique features; target encoding at various levels(mean deal probability levels)</li>
+<li><strong>predicted independent variables features</strong>: predicted independent variables features with xgb or lgb, and then give the mean features of these variables above according to categorical levels; also include the diff features between the predicted ones and the true variables at various levels.</li>
+<li>user_id features: (may try user2vec)  treat userid as categorical variable, generate features at (userid) or (userid, other categorical variables) level(user_id interactions with other variable)</li>
+<li>while generating new features with calculating between other existing features,  we often use lag/log or other functions for some simple transformation. (calculating min max mean sd or other statistics to be new features at categorical level may be useful. training some intermediate models to generate features may be useful.)</li>
+</ul>
+<h2 id="second-place-solution"><a class="markdownIt-Anchor" href="#second-place-solution"></a> second place solution</h2>
+<p>特征角度：</p>
+<p>image features：用预训练模型VGG16、ResNet50、MobileNet做图片特征提取</p>
+<p>text features：在整个数据集上训练FastText做embedding，包括描述、城市title、类别title等</p>
+<p>statistical features：比较重要。一级二级三级品类的平均价格</p>
+<p>无监督学习：品类特征上采用自编码模型分离特征。采用user2vec对user_id编码</p>
+<p>模型上：</p>
+<p>神经网络：FM like style for categorical features with embeddings？？数值特征、fasttext  vectors、image vectors、BiLSTM for words、BiLSTM for characters with max, avg poolings with attention、target encoded features for categorical features and second and third order interactions， user2vec features. With cyclic LR, adam optimizer, BNs, dropouts.</p>
+<p>LGB: fasttext vec 对lgb单个模型很好。 可以考虑SVD over TFIDF</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scala语言学习一</title>
+    <url>/2020/05/03/scala/</url>
+    <content><![CDATA[<h1 id="数据类型"><a class="markdownIt-Anchor" href="#数据类型"></a> 数据类型</h1>
+<p>核心数据类型与通常语言的类型相差不大，但类型变换被限制在树结构中，子类可以变到父类，但父类可以变到子类。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">从子类到父类：（同行并列无归属）</span><br><span class="line">Byte      有符号整数                                   </span><br><span class="line">Short     有符号整数                       Char   Unicode字符               </span><br><span class="line">Int       有符号整数，整形变量默认为Int型                 </span><br><span class="line">Long      有符号整数                                   </span><br><span class="line">Float     单精度，有符号浮点数，大小为4                   </span><br><span class="line">Double    双精度，有符号浮点数，大小为8        </span><br><span class="line">AnyVal    Scala中所有值类型的根             AnyRef    所有引用（非值）类型的根</span><br><span class="line">Any       所有类型的根</span><br><span class="line"></span><br><span class="line">没有子类，父类为AnyVal的类型：</span><br><span class="line">String    字符串,<span class="string">"A"</span>是string,<span class="string">'A'</span>是char</span><br><span class="line">Unit      指示没有值，用于不返回任何结果的方法类型</span><br><span class="line">Boolean   布尔类型</span><br><span class="line"></span><br><span class="line">其他：</span><br><span class="line">Nothing   所有类型的子类，常用语抛出异常，退出等。</span><br><span class="line">Null      AnyRef类型的子类</span><br></pre></td></tr></table></figure>
+<h2 id="数据类型的转化"><a class="markdownIt-Anchor" href="#数据类型的转化"></a> 数据类型的转化</h2>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//可以成功从Long转到Float</span></span><br><span class="line"><span class="keyword">val</span> x: <span class="type">Long</span> = <span class="number">9876688</span></span><br><span class="line"><span class="keyword">val</span> y: <span class="type">Float</span> = x</span><br><span class="line"><span class="comment">//不可以成功从Long转到Int</span></span><br><span class="line"><span class="keyword">val</span> x: <span class="type">Long</span> = <span class="number">1234455</span></span><br><span class="line"><span class="keyword">val</span> y: <span class="type">Int</span> = x</span><br></pre></td></tr></table></figure>
+<h2 id="值与变量"><a class="markdownIt-Anchor" href="#值与变量"></a> 值与变量</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">不可变赋值语法： val &lt;Name&gt;[: &lt;<span class="built_in">type</span>&gt;] = &lt;Value&gt;</span><br><span class="line">可变赋值（变量定义）语法：var &lt;Name&gt;[: &lt;<span class="built_in">type</span>&gt;] = &lt;Value&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="数组结构"><a class="markdownIt-Anchor" href="#数组结构"></a> 数组结构</h2>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//元组Tuple: 元组可以存放不同类型的数据</span></span><br><span class="line"><span class="keyword">var</span> a=(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">a._1</span><br><span class="line"><span class="comment">//数组Array: 数组存放相同类型，固定长度的数据集合</span></span><br><span class="line"><span class="keyword">var</span> b=<span class="type">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">b(<span class="number">1</span>)</span><br><span class="line"><span class="comment">//列表List: 列表存放相同类型的数据</span></span><br><span class="line"><span class="keyword">var</span> c=<span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">c(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="表达式"><a class="markdownIt-Anchor" href="#表达式"></a> 表达式</h2>
+<p>可以使用大括号结合多个表达式创建一个表达式块；表达式有自己的作用域，在其中可以包含一些</p>
+<p>局部值和变量；块中的最后一个表达式将作为整个表达式块的返回值。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> pi_approx = &#123;</span><br><span class="line">    <span class="keyword">val</span> numerator = <span class="number">355</span>; </span><br><span class="line">    <span class="keyword">val</span> denominator = <span class="number">113</span>f;</span><br><span class="line">    numerator/denominator</span><br><span class="line">&#125;</span><br><span class="line">&#123;<span class="keyword">val</span> a=<span class="number">1</span>;&#123;<span class="keyword">val</span> b=a*<span class="number">2</span>;&#123;<span class="keyword">val</span> c=b+<span class="number">4</span>; c&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符串插值"><a class="markdownIt-Anchor" href="#字符串插值"></a> 字符串插值</h3>
+<p>s插值器和f插值器：</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">// s插值器</span></span><br><span class="line"><span class="keyword">val</span> name=<span class="string">"James"</span></span><br><span class="line">println(<span class="string">s"Hello,<span class="subst">$name</span>"</span>)</span><br><span class="line">print(<span class="string">s"1+1=<span class="subst">$&#123;1+1&#125;</span>"</span>)</span><br><span class="line"><span class="comment">// f插值器</span></span><br><span class="line"><span class="keyword">val</span> pi_approx = <span class="string">f"pi = <span class="subst">$&#123;355f/113&#125;</span>%.5f"</span></span><br><span class="line"><span class="comment">// %1.5f：空1格并保留5位小数点的浮点型数据</span></span><br><span class="line"><span class="comment">// 355f/113：表示结果为浮点型数据</span></span><br></pre></td></tr></table></figure>
+<h3 id="条件表达式"><a class="markdownIt-Anchor" href="#条件表达式"></a> 条件表达式</h3>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x: <span class="type">Int</span> = <span class="number">21</span></span><br><span class="line"><span class="keyword">if</span>(x % <span class="number">2</span> &gt; <span class="number">0</span>) println(<span class="string">s"<span class="subst">$x</span> is not a multiple of 2"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> x=<span class="number">1</span>; <span class="keyword">val</span> y=<span class="number">8</span></span><br><span class="line"><span class="keyword">val</span> max = <span class="keyword">if</span>(x&gt;y) x <span class="keyword">else</span> y</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> x=<span class="number">0.5</span></span><br></pre></td></tr></table></figure>
+<h3 id="匹配表达式"><a class="markdownIt-Anchor" href="#匹配表达式"></a> 匹配表达式</h3>
+<p>可构造结构复杂的测试，并将匹配的值分配给变量</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">&lt;expression&gt; <span class="keyword">match</span>&#123;</span><br><span class="line">    <span class="keyword">case</span>&lt;pattern1&gt; =&gt; &lt;expression1&gt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//例：</span></span><br><span class="line"><span class="keyword">val</span> x=<span class="number">8</span>;<span class="keyword">var</span> y=<span class="number">80</span></span><br><span class="line"><span class="keyword">val</span> max = x&gt;y <span class="keyword">match</span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="literal">true</span> =&gt;x</span><br><span class="line">    <span class="keyword">case</span> <span class="literal">false</span>=&gt;y</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//例2：写出匹配判别式，使得学生成绩在90 到100 分为’A’, 70 到80分为’B’, 60 到70 分为’C’, 60 分一下为’F’。并以95 分为例验证。</span></span><br><span class="line"><span class="keyword">var</span> score = <span class="number">95</span>; </span><br><span class="line"><span class="keyword">val</span> grade = score <span class="keyword">match</span>&#123;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="循环"><a class="markdownIt-Anchor" href="#循环"></a> 循环</h1>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//for循环</span></span><br><span class="line"><span class="keyword">for</span>(&lt;identifier&gt;)&lt;-&lt;iterator&gt;)[<span class="keyword">yield</span>][&lt;expression&gt;]</span><br><span class="line"><span class="comment">//其中调用的所有表达式的返回值将通过yield作为一个集合返回</span></span><br><span class="line"><span class="keyword">for</span>(i&lt;- <span class="number">0</span> until <span class="number">10</span>) println(<span class="string">s"sin(<span class="subst">$i</span>) = &amp;&#123;math.sin(i)&#125;"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> b=<span class="keyword">for</span>(e&lt;- <span class="number">1</span> to <span class="number">10</span> <span class="keyword">if</span> e &lt;= <span class="number">2</span>) <span class="keyword">yield</span> e</span><br><span class="line"><span class="comment">//for循环中加条件：筛选出1 to 4中每个元素分别加上标识数，并将其赋值给b</span></span><br><span class="line"><span class="keyword">val</span> b=<span class="keyword">for</span>(e&lt;- <span class="number">1</span> to <span class="number">4</span> ) <span class="keyword">yield</span> e + e - <span class="number">1</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">val</span> a=<span class="type">List</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> b=<span class="keyword">for</span>(i&lt;<span class="number">-0</span> to <span class="number">3</span>) <span class="keyword">yield</span> a(i)+<span class="number">1</span></span><br><span class="line"><span class="keyword">val</span> b=<span class="keyword">for</span>(i&lt;- <span class="number">0</span> to <span class="number">3</span>) a(i)+<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> (x&lt;- <span class="number">1</span> to <span class="number">3</span>;y&lt;- <span class="number">4</span> to <span class="number">6</span>) <span class="keyword">yield</span> x+y</span><br><span class="line"><span class="comment">//使用Vector在for循环中迭代</span></span><br><span class="line"><span class="keyword">val</span> fruits = <span class="type">Vecotr</span>(<span class="string">"apple"</span>,<span class="string">"banana"</span>,<span class="string">"lime"</span>,<span class="string">"orange"</span>)</span><br><span class="line"><span class="keyword">for</span> &#123;e&lt;- fruits <span class="keyword">if</span> e.length&lt;<span class="number">6</span>&#125; <span class="keyword">yield</span> e.toUpperCase</span><br><span class="line"></span><br><span class="line"><span class="comment">//while循环</span></span><br><span class="line"><span class="keyword">while</span>(condition)&#123;statement(s);&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Loop</span></span>(x:<span class="type">Int</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> a = x</span><br><span class="line">    <span class="keyword">while</span>(a&lt;=<span class="number">20</span>)&#123;</span><br><span class="line">        println(<span class="string">"Value of a:"</span>+a)</span><br><span class="line">        a = a+<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> iter = <span class="type">Iterator</span>(<span class="number">1</span> to <span class="number">10</span>)<span class="comment">//产生迭代器 调用it.next() it.hasNext()</span></span><br><span class="line"><span class="keyword">while</span>(iter.hasNext)&#123;</span><br><span class="line">    println(<span class="string">s"nextValue = <span class="subst">$&#123;iter.next&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//do...while循环:与while循环的区别是，do...while确保至少执行一次</span></span><br><span class="line">do statement(s); <span class="keyword">while</span>(condition)</span><br><span class="line"><span class="keyword">var</span> max_times = <span class="number">10</span>; <span class="keyword">var</span> count = <span class="number">0</span></span><br><span class="line">do&#123;</span><br><span class="line">    println(<span class="string">s"count = <span class="subst">$count</span>"</span>)</span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span>(count&lt;max_times)</span><br></pre></td></tr></table></figure>
+<h1 id="方法"><a class="markdownIt-Anchor" href="#方法"></a> 方法</h1>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方法（Method）定义</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">functionName</span></span>([para]):[<span class="keyword">return</span> <span class="class"><span class="keyword">type</span>] </span>=&#123;</span><br><span class="line">    function body</span><br><span class="line">    <span class="keyword">return</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在python中被称为是函数，在scala中为方法。如果一个定义的方法没有返回值（即Unit），就叫做过程。Scala方法是类的一部分，不是值；Scala函数是一个对象可以赋值给一个变量。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">word=</span>"<span class="title">hi</span>"</span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">logit</span></span>(p:<span class="type">Double</span>):<span class="type">Double</span>=&#123;</span><br><span class="line">    <span class="keyword">if</span>(p&gt;=<span class="number">0</span>&amp;&amp;p&lt;=<span class="number">1</span>) math.log(p/(<span class="number">1</span>-p))</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(<span class="string">s"logit:parameter <span class="subst">$p</span> is out of range"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">printMe</span></span>():<span class="type">Unit</span>=&#123;</span><br><span class="line">    println(<span class="string">"Hello,Scala!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">power</span></span>(x:<span class="type">Int</span>,n:<span class="type">Int</span>):<span class="type">Long</span>=&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&gt;=<span class="number">1</span>) x*power(x,n<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">else</span> <span class="number">1</span></span><br><span class="line">&#125;<span class="comment">//定义了一个递归方法</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">factorial</span></span>(x:<span class="type">Int</span>): <span class="type">Int</span>=&#123;</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fact</span></span>(x:<span class="type">Int</span>,accumulator:<span class="type">Int</span>):<span class="type">Int</span>=&#123;</span><br><span class="line">        <span class="keyword">if</span>(x &lt;= <span class="number">1</span>) accumulator</span><br><span class="line">        <span class="keyword">else</span> fact(x<span class="number">-1</span>,x*accumulator)</span><br><span class="line">    &#125;</span><br><span class="line">    fact(x,<span class="number">1</span>)</span><br><span class="line">&#125;<span class="comment">//定义了数字阶乘</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiplier</span></span>(x:<span class="type">Int</span>,y:<span class="type">Int</span>):<span class="type">Int</span>=&#123;</span><br><span class="line">    x*y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//匿名函数</span></span><br><span class="line">(x:<span class="type">Double</span>)=&gt;x*x</span><br><span class="line">(<span class="number">1</span> to <span class="number">5</span>).map(_*<span class="number">2</span>)</span><br><span class="line">(<span class="number">1</span> to <span class="number">5</span>).reduce(_+_)</span><br><span class="line">(<span class="number">1</span> to <span class="number">5</span>).map&#123;x=&gt; <span class="keyword">val</span> y=x*<span class="number">2</span>;println(y);y&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="常用调用"><a class="markdownIt-Anchor" href="#常用调用"></a> 常用调用</h1>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> result=<span class="number">3.1415</span></span><br><span class="line">result.round</span><br><span class="line">result.floor</span><br><span class="line">result.compare(<span class="number">10</span>)</span><br><span class="line">result.abs</span><br><span class="line"><span class="keyword">val</span> result=<span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">result.max</span><br><span class="line">result.min</span><br><span class="line">result.size</span><br><span class="line">result.head</span><br><span class="line">result.tail(<span class="number">1</span>)</span><br><span class="line">result.product <span class="comment">//点乘乘积</span></span><br><span class="line">result.sum</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> one=<span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> two=<span class="type">List</span>(<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)</span><br><span class="line"><span class="keyword">val</span> three = one:::two<span class="comment">//:::表示两个List之间的连接</span></span><br><span class="line"><span class="keyword">val</span> four=<span class="number">7</span>::three<span class="comment">//::表示元素与List之间的连接</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> a=<span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line"><span class="keyword">val</span> afilter=a.filter(_&gt;=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="类"><a class="markdownIt-Anchor" href="#类"></a> 类</h1>
+<p>类是面向对象语言的核心构建，不同的类可以根据需要实例化多次，每个实例都有自己的数据初始化。</p>
+<p>所有一切都是对象；类时面向对象编程语言的基石；类可以继承其他类，从而扩展其功能。</p>
+<p>类是对象的抽象，而对象是类的具体实例。类是抽象的，不占用内存，而对象是具体的，占用内存。</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span>(<span class="params">xc:<span class="type">Int</span>,yc:<span class="type">Int</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> x:<span class="type">Int</span>=xc</span><br><span class="line">    <span class="keyword">var</span> y:<span class="type">Int</span>=yc</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">move</span></span>(dx:<span class="type">Int</span>,dy:<span class="type">Int</span>)&#123;</span><br><span class="line">        x = x + dx</span><br><span class="line">        y = y + dy</span><br><span class="line">        println(<span class="string">"x的坐标点："</span>+ x);</span><br><span class="line">        println(<span class="string">"y的坐标点："</span>+ y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> futurePoint = <span class="keyword">new</span> <span class="type">Point</span>(<span class="number">10</span>,<span class="number">20</span>)</span><br><span class="line">futurePoint.move(<span class="number">20</span>,<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span>(<span class="params">_name:<span class="type">String</span></span>)</span>&#123;<span class="keyword">lazy</span> <span class="keyword">val</span> name=_name&#125;<span class="comment">//使用lazy val，等真正使用到这个变量的时候再赋值</span></span><br><span class="line">(<span class="keyword">new</span> <span class="type">User</span>(<span class="string">"example"</span>)).name</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span>(<span class="params">_name:<span class="type">String</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">val</span> name = _name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">greet</span></span>: <span class="type">String</span> = <span class="string">s"Hello from <span class="subst">$name</span>"</span><span class="comment">//显式定义方法的返回类型</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">toString</span> </span>= <span class="string">s"User(<span class="subst">$name</span>)"</span><span class="comment">//override表示覆盖已存在的方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>编程语言</category>
+      </categories>
+      <tags>
+        <tag>Scala</tag>
+        <tag>CS</tag>
+        <tag>分布式计算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>politics</title>
+    <url>/2020/05/08/politics/</url>
+    <content><![CDATA[<h1 id="党的性质"><a class="markdownIt-Anchor" href="#党的性质"></a> 党的性质</h1>
+<p>同样是政党政治，政党的性质不一样，对应政党的使命任务、组织方式、组织过程、思维方式和公共行为选择都不一样。因此政党政治的核心在于政党的性质，即代表谁，为谁执政，从谁的根本利益出发。无产阶级政党代表的是多数人，广大劳动人民，广大无产阶级。政党的性质不同决定政党的价值观，政党的行为不同。性质的差别是第一性的，执政水平能力的差别是第二性的。政党的性质是前提，不能脱离政党的性质谈论政党行为技术层面的水平高低。</p>
+<p>党的性质的论述：中国共产党是中国工人阶级的先锋队（党的阶级立场），同时是中国人民和中华民族的先锋队（群体和民族立场），是中国特色社会主义事业的领导核心（功能立场），代表中国最先进生产力的发展要求，代表中国最先进文化的前进方向，代表中国最广大人民的根本利益（价值立场）。党的理想和最终目标是实现共产主义（目标立场、愿景立场）。五个核心立场决定中国共产党的根本性质与其他政党截然不同。</p>
+<ul>
+<li>
+<p>工人阶级（社会化大生产、组织性纪律性强）、农民阶级（小农经济、较分散经济）、资产阶级（剥削性）</p>
+</li>
+<li>
+<p>用比农民阶级的进步性积极性来反抗资产阶级的剥削性–工人阶级的使命和责任</p>
+</li>
+<li>
+<p>工人阶级代表的是解放的普遍力量</p>
+</li>
+<li>
+<p>党的宗旨：全心全意为人民服务  一致性 服从于党的内在性质需要 党的性质的外部化</p>
+</li>
+<li>
+<p>立党为公执政为民，提高党的执政能力和执政水平，要让党的工作的先进性实现体现党的性质的先进性和理论的先进性</p>
+</li>
+<li>
+<p>党的两个先锋队性质是一个统一整体</p>
+</li>
+</ul>
+<h1 id="党的根本宗旨和指导思想"><a class="markdownIt-Anchor" href="#党的根本宗旨和指导思想"></a> 党的根本宗旨和指导思想</h1>
+<p>党的宗旨关乎党的内部和外部，关乎党的自身和群众的关系。中国共产党代表大多数人的根本利益，为大多数人服务—党的宗旨：全心全意为人民服务</p>
+<p>人民内部的矛盾—&gt;人民共同体、理想信念价值共同体</p>
+<p>普遍性的利益代替局部性的利益、为多数人服务代替为少数人服务</p>
+<ul>
+<li>全心全意为人民服务就是兑现党的性质</li>
+<li>是党的各项事业取得胜利的重要保证（党的工作理想、路线方针政策、理论宗旨要靠人民去实现，靠人民去贯彻落实，因此需要代表人民的利益，全心全意为人民服务 ；党的事业都是为人民谋利益的事业，人民维护党的事业，支持党的事业，就是支持自己的利益 ）</li>
+<li>阶级基础 社会基础 群众基础  坚持全心全意为人民服务是事半功倍的事情—&gt;党的事业</li>
+<li>如何践行宗旨？代表行动、行为、做法。牢固树立马克思主义的群众观点，尊重人民群众的历史地位，坚持人民群众的首创精神、利益，保证人民群众当家做主，最大限度地调动人民群众的积极性，把人民群众的力量变成中特现代化建设的实现者、参与者、贡献者。把人民群众变为自主自觉自维的历史创造者和推动者。——群众观</li>
+<li>宏大的政治蓄势要进入到具体的政治过程和政治实践中。党为了谁要首先得到明确的回答，是政治实践的根本出发点。必须要把抽象的人民立场变为具体的为人民服务为人民工作实实在在的政治行为和政治过程。</li>
+</ul>
+<p>党的指导思想：马克思列宁主义（理论基础行动指南）、毛泽东思想（与中国实际结合的光辉典范）、中国特色社会主义理论体系（马列主义中国化进程的理论成果）（党的历史）；习近平新时代中国特色社会主义思想（马克思主义中国化的最新成果，行动指南）（党的当下）</p>
+<ul>
+<li>
+<p>坚持与时俱进，推进马克思主义中国化、党的指导思想要继续不断得到推进和更新发展、理论创新和实践创新不断发展</p>
+</li>
+<li>
+<p>指导思想发展的过程中既坚持政治性，又坚持可续性；兼顾社会发展的现实外部规律和党的政治性，不会使得党的指导思想发展与社会脱节和冲突</p>
+</li>
+<li>
+<p>政治性原则；科学性原则—走进现实，兼顾社会发展的实践，不能用政治性否定现实客观规律；时代性—确保与时代发展同步，时效性和有效性，在时代的前提下创新和发展指导思想，以推动党的发展。</p>
+</li>
+</ul>
+<h1 id="党的最终目标和现阶段奋斗目标"><a class="markdownIt-Anchor" href="#党的最终目标和现阶段奋斗目标"></a> 党的最终目标和现阶段奋斗目标</h1>
+<p>党的最高理想和最终奋斗目标（1921年一大确立）：实现共产主义</p>
+<p>现阶段：社会主义初级阶段</p>
+<p>现阶段奋斗目标：</p>
+<ul>
+<li>建设中国特色社会主义，结束社会主义初级阶段</li>
+<li>2021年全面建成小康社会；2050年建成社会主义现代化强国 （两个一百年）</li>
+<li>建立不忘初心牢记使命的制度，为最终目标奋斗，为现阶段目标奋斗</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>党课学习</tag>
+      </tags>
   </entry>
 </search>
