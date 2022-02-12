@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="算法,面经," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="春招总算告一段落了！本人也是第一次参加大型春招，但感觉还是收获不少，好在每次都有记录面试内容，自己对面试整体的把握还算准确，趁热记录一下整体的流程和感想~ 个人经历先讲一下自己的经历：统计出身，学过编程但数据结构和算法不熟，工程能力较差；研究方向算是本科到现在一直在做弱监督学习相关，有未发表成果；参与过目标检测实际项目；两段实习：美团点评商业分析和平安人寿知识图谱；对CV和NLP有相关了解。大概是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020暑期算法大厂面经~">
+<meta property="og:url" content="http://yoursite.com/2020/04/24/intern/index.html">
+<meta property="og:site_name" content="Erica&#39;s Blog">
+<meta property="og:description" content="春招总算告一段落了！本人也是第一次参加大型春招，但感觉还是收获不少，好在每次都有记录面试内容，自己对面试整体的把握还算准确，趁热记录一下整体的流程和感想~ 个人经历先讲一下自己的经历：统计出身，学过编程但数据结构和算法不熟，工程能力较差；研究方向算是本科到现在一直在做弱监督学习相关，有未发表成果；参与过目标检测实际项目；两段实习：美团点评商业分析和平安人寿知识图谱；对CV和NLP有相关了解。大概是">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-04-24T13:04:06.000Z">
+<meta property="article:modified_time" content="2022-02-12T14:12:16.555Z">
+<meta property="article:author" content="Erica Liu">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="面经">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/24/intern/"/>
+
+
+
+
+
+  <title>2020暑期算法大厂面经~ | Erica's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Erica's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/24/intern/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myphoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Erica's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2020暑期算法大厂面经~</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-24T21:04:06+08:00">
+                2020-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/24/intern/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2020/04/24/intern/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                   字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                   分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>春招总算告一段落了！本人也是第一次参加大型春招，但感觉还是收获不少，好在每次都有记录面试内容，自己对面试整体的把握还算准确，趁热记录一下整体的流程和感想~</p>
+<h1 id="个人经历"><a href="#个人经历" class="headerlink" title="个人经历"></a>个人经历</h1><p>先讲一下自己的经历：统计出身，学过编程但数据结构和算法不熟，工程能力较差；研究方向算是本科到现在一直在做弱监督学习相关，有未发表成果；参与过目标检测实际项目；两段实习：美团点评商业分析和平安人寿知识图谱；对CV和NLP有相关了解。大概是从3月份开始准备，所以到现在其实也就一两个月的时间去复习，期间投过美团、腾讯、阿里、百度、京东、字节、网易互娱、招行信用卡，4月拿到了美团和腾讯的offer，目前拿到了阿里的录取意向书，百度经历了三次面试，其他的没有面试等下会仔细讲。下面就各大厂投递和面试情况讲讲具体情况~</p>
+<hr>
+<h1 id="美团点评"><a href="#美团点评" class="headerlink" title="美团点评"></a>美团点评</h1><p>从大概3月初就有各大厂各种各样的内推群，顺手加了好几个，但当时还没有开始准备，从来没刷过力扣和数据结构题，所以一直很怯，加的群越来越多就越来越恐慌和焦虑。美团点评其实开的很早，大概3月10号的时候，我扫了学姐顺手转发的内推码，具体是到店技术平台在上海的一个组。当时扫的时候主要是看到12号可以直接参加笔试感受下春招笔试，之前也在美团点评实习过，所以当时就只想试试水。笔试在赛码网五道题两个小时，做的时候我感觉那场挺难的，题目长的理解上难一点，题目短的要求难。。做了一个小时做不出来一道我就关电脑了。。结果第二天晚上给我打电话说我笔试通过了，满脸震惊地接受了第二天的面试预约。</p>
+<h2 id="视频一面"><a href="#视频一面" class="headerlink" title="视频一面"></a>视频一面</h2><p>牛客网视频面（需要提前调试下镜头角度之类的），面试具体根据简历和你讲的东西发散提问：</p>
+<ul>
+<li>讲一个你熟悉的项目；</li>
+<li>讲一下faster RCNN，两阶段与一阶段的区别；</li>
+<li>熟悉的几种机器学习方法；随机森林随机在哪里(因为讲随机森林的时候讲错了，所以小哥问了这个问题，所以没答出来，下来看了一下体现在行采样和列采样，XGBoost中也使用了)</li>
+<li>几种评价指标precision recall auc roc</li>
+<li>知道的几种激活函数及其区别</li>
+<li>讲讲SVM（也不用推导，具体包含想法、函数几何间隔、损失函数、软间隔引入松弛变量、非线性、对偶问题求解等）</li>
+<li>对自然语言处理算法的了解</li>
+<li>三元组中怎么区分属性和关系、NER任务的几类经典模型</li>
+<li>手撕代码的时候，小哥说我看了你的笔试题，你自己觉得做的怎么样。。面露难色地为自己的菜鸡找了一个出身的借口，小哥就给我愉快地出了最经典的上台阶问题</li>
+</ul>
+<h2 id="视频二面"><a href="#视频二面" class="headerlink" title="视频二面"></a>视频二面</h2><p>视频二面是主管面，牛客网预约网址我给输错了，所以加了主管的微信，微信视频聊。二面涉及到的技术很少，主管是考察整体素质、对业务的敏感、用算法解决实际问题的能力。</p>
+<ul>
+<li>自我介绍</li>
+<li>有什么优点、有什么缺点</li>
+<li>对平安知识图谱业务的了解、对美团业务的了解、为什么喜欢算法</li>
+<li>讲一个项目</li>
+<li>开放题：美团app搜索框如何推荐，有什么好的想法</li>
+</ul>
+<p>二面聊的特别好…二面老师直接跟我说欢迎我，想让我再去美团体验体验了哈哈哈</p>
+<p>美团整体的面试流程特别快，我没有hr面，可能跟部门有关，面试到拿到offer整体两个周时间。</p>
+<hr>
+<h1 id="腾讯"><a href="#腾讯" class="headerlink" title="腾讯"></a>腾讯</h1><p>因为之前在领英看到一个统院的学长在腾讯暑期且留用了，找了认识的学姐要到了微信，学长人特别好！帮我看简历，帮我划重点，还一直给我发微博学习内容督促我学习哈哈哈（虽然我一直没看）本来是想学长直接帮我内推到他们组，增大我入围概率，但一直不知道他们组有没有hc，他就一边先帮我内推到腾讯简历池，一边帮我递给他们组长。后续收到了他们组的电话面试，自己感觉还行，但中间有的问题我那个时候似乎搞的不是很清楚，但以为自己很懂….先放出来面经吧：</p>
+<h2 id="NLP一面电话"><a href="#NLP一面电话" class="headerlink" title="NLP一面电话"></a>NLP一面电话</h2><ul>
+<li>讲一个熟悉的项目</li>
+<li>讲一下远程监督（由于我讲项目的时候顺嘴提了这个词..）</li>
+<li>讲一下关键词挖掘textRank和AutoPhrase（实习中的）</li>
+<li>讲一下Attention（讲了最原始的attention、还有soft、hard、local、global、以及匹配的几种方式、self-attention）</li>
+<li>讲一下word2vec中负采样</li>
+<li>讲一下Elmo、GPT、BERT</li>
+<li>pytorch：里搭网络框架的几种方式；使用GPU需要怎么设置；如何保存模型；</li>
+<li>linux基本操作：如何看文件的行数</li>
+<li>对于正负样本不均衡的情况怎么处理</li>
+</ul>
+<p>此次面试结束就一直在等。。学长跟我讲他们组长一直在对比（我猜测对我不是很满意），等到一个周结束之后，学长的内推就自动解锁了，一天晚上接到深圳的电话，说是预约第二天的视频面试，我还以为是原来的组，问了半天是一面，老师直接锁了我的简历，到这时候基本我留上海腾讯的几率就没有了。。我就硬着头皮面了。</p>
+<h2 id="推荐一面视频"><a href="#推荐一面视频" class="headerlink" title="推荐一面视频"></a>推荐一面视频</h2><ul>
+<li>word2vec、GloVe、Elmo、GPT、BERT全部讲了一遍，优点缺点和对比</li>
+<li>transformer中的self-attention layer</li>
+<li>知道的二分类模型有哪些、随机森林和xgboost的区别、怎样减小过拟合</li>
+<li>神经网络和统计机器学习的根本区别在哪</li>
+<li>知道的损失函数有哪些（我少说了个hinge loss）</li>
+<li>抛硬币问题：第一个人赢的概率有多大（提前看了学姐蚂蚁的面经，一模一样的问题哈哈哈）</li>
+</ul>
+<p>整体一面感觉不错，因为提前加了微信，我翻了一面老师的朋友圈，知道是做微视业务的算法，所以面试介绍项目的时候有意无意地提到短视频推荐，结果真的是做微视推荐的….</p>
+<h2 id="推荐二面视频"><a href="#推荐二面视频" class="headerlink" title="推荐二面视频"></a>推荐二面视频</h2><p>二面预约的时候我腾讯招聘确认了，但是因为没面过腾讯，一面用微信视频面的，我没check邮箱。。。第二天到面试时间一直在想从哪里进。。结果一面老师说二面老师等了我好久。。手忙脚乱地点进去真是尴尬..中间手机还一直消息通知没关闭…长记性了….</p>
+<ul>
+<li>讲一下attention</li>
+<li>self-attention和attention的区别</li>
+<li>self-attention和RNN的区别（还问到我RNN和self-attention性能谁好，我说self-attention呀，可并行可stack层更深，但他说self-attention计算是全局的为什么更好…我其实不懂他说性能指啥..现在也没搞明白）</li>
+<li>知道的激活函数有哪些</li>
+<li>知道梯度下降方法有哪些</li>
+<li>讲一下GBDT、GBDT减少过拟合的方法（其实就是xgboost里面的一些操作）</li>
+<li>手撕代码又看在我不行的份上出了个简单的，呵呵：给一个数组，里面只有一个数出现一次，其他数出现两次，找出这个数（使用异或，下次再开个贴写）</li>
+</ul>
+<p>二面老师勉勉强强给我通过了。。</p>
+<h2 id="推荐三面视频"><a href="#推荐三面视频" class="headerlink" title="推荐三面视频"></a>推荐三面视频</h2><p>三面是技术专家，我还以为是主管面啥的，结果是技术面+一些综合考察。</p>
+<ul>
+<li>讲一个项目，PU learning以往的算法（Mark一下，下下次开个贴讲）</li>
+<li>KL散度和JS散度的区别</li>
+<li>觉得自身对做微视推荐有什么优势</li>
+<li>在美团点评做了什么（果然关注大厂实习，最终给我的定位是去做数据分析或者特征工程之类的。。有点劝退，我可是怀揣大梦想的人）</li>
+</ul>
+<h2 id="推荐HR电面"><a href="#推荐HR电面" class="headerlink" title="推荐HR电面"></a>推荐HR电面</h2><ul>
+<li>自我介绍</li>
+<li>讲一下平安人寿实习情况、研究进展、技术未来的发展点和突破点（因为我对GNN的调研工作）</li>
+<li>美团实习讲一个有意思的项目（我讲到这里她也发现其实我的东西都没落地。。尴尬）</li>
+<li>实习时间和城市</li>
+</ul>
+<p>接到offer call是在清明节之前，节后就给我发offer了，太太太快了。因为走的提前批所以没有笔试，但是！真的要早投，最近腾讯正式批才笔试，但hc真的早没了，笔试之后也不一定有人捞。</p>
+<hr>
+<h1 id="阿里"><a href="#阿里" class="headerlink" title="阿里"></a>阿里</h1><p>终于到阿里了。。。。大概二月份，阿里就各种铺天盖地的内推海报（主要是蚂蚁hh），我投了大概十几个邮箱，中间有重复的部门，主要包含蚂蚁（花呗借呗、大安全、广告技术、搜索推荐、微贷等）、飞猪、淘系、钉钉大概这几个部门。系统大概是3月中旬开启，有很多部门会开系统之前提前面，提前面好的一点是，不走系统，面试不留记录。我有过两次提前面试，主要是支付宝广告技术和搜索推荐两个部门，第二个被挂掉了…春招唯一滑铁卢（微笑脸。</p>
+<h2 id="广告技术电面一"><a href="#广告技术电面一" class="headerlink" title="广告技术电面一"></a>广告技术电面一</h2><ul>
+<li>讲一下文章（这里算是我春招的第一次面试，很紧张，讲文章的时候讲的太细节了，电话里说了好多公式把人家搞糊涂了。。最后人家去arxiv上扒了文章….）</li>
+<li>美团实习：讲一个案例（临时没有准备到。。还以为不会问数据分析的实习，但还好有印象）</li>
+<li>平安实习：讲一下你理解的知识图谱</li>
+<li>开放题：支付宝里怎么应用知识图谱（我回答的给基金做领域的知识图谱），然后抛出两个问题：数据来源；数据的提取和知识图谱的构建</li>
+<li>问了python里面 *的作用</li>
+</ul>
+<p>这个老师人特别好，最后给我过了，但是我内推没点这个部门。。（对不起</p>
+<h2 id="搜索推荐部门电面一"><a href="#搜索推荐部门电面一" class="headerlink" title="搜索推荐部门电面一"></a>搜索推荐部门电面一</h2><p>搜索推荐其实和广告技术是一个大部门，本来约第二天早晨10点面，结果约的老师有事情，叫了北京的同事面我，整体聊的有点一般。。</p>
+<ul>
+<li>讲文章没的说..</li>
+<li>知道的二分类模型有哪些；logistic损失函数（我说交叉熵损失函数，他指出我的一个错误，但其实是对的，我当时没反应过来反驳他。。）；正则化项；L1，L2如何选择区别；描述下Transformer模型（NLP部分的知识看了很多文章，但一直在准备基础没实战，他问我所以你都没有跑一跑模型是吗。。。我就没办法否认了）</li>
+<li>问了一个code题：给一个数组，给一个target，返回数组中相加为该target的两个下标的索引（很easy的问题有点我讲的稍微有点麻烦，暴露了我对Python的API不熟悉的缺点…）</li>
+</ul>
+<p>总之，这次面试中，部分回答我有点太过于老实了，对方一针见血我就被死死按住。。最后问他对我什么看法啥的，他说我肯定不能现在告诉你结果，你知道，我们都选top的….(我一听就是凉的节奏，微笑)</p>
+<hr>
+<p>内推开启之后，收到了超级多的邮件哈哈哈哈，一瞬间有种大家争着要我的错觉。。其实开始挺想去淘系的，双十一玩法也太有意思了，大安全也有点想去，但很担心自己不行，开始本来想选保险的就是广告部门（因为已经一面过了，几率大一些），结果内推我进广告的学长跟我讲大安全是一个很好的选择，再加上超可爱的直系学姐也在大安全，就莫名好感，想稍微冲一下，最后就点了大安全。</p>
+<p>今年的阿里不能免笔试了，必须先完成笔试才能有面试。我询问了好几个学长学姐，自己的判断是阿里对笔试没那么看重，所以主观上认为我笔试做的早就能面的早，早拿offer。。。然并卵。。</p>
+<p>我大概是3.25做的笔试，爆0结束…等到4.4一面，然后4.11拿到一份新的笔试题，给一天时间做完，4.16二面，4.20三面，4.21约了HR面，4.24拿到录取意向书。</p>
+<h2 id="大安全一面"><a href="#大安全一面" class="headerlink" title="大安全一面"></a>大安全一面</h2><p>整体问的不多，主要是结合论文，大概50分钟左右。</p>
+<ul>
+<li>问了一下编程功底，主要问学过什么语言，做过什么项目，主要用什么语言，有没有开发算法之类的</li>
+<li>问了一下美团的实习，做了什么东西，有成就感的地方，觉得困难有挑战的地方</li>
+<li>对图神经网络的了解（从GCN讲到GAT，问我对什么攻防GNN有了解没我没有…）</li>
+<li>主要问了文章（我感觉一面老师思维转的很快，虽然是不熟悉的领域，但他有很多临时想的问题都特别好）</li>
+</ul>
+<h2 id="大安全二面"><a href="#大安全二面" class="headerlink" title="大安全二面"></a>大安全二面</h2><p>二面是主管面，大概40-50分钟。</p>
+<ul>
+<li>图神经网络讲一下（又讲了一遍GAT。。）</li>
+<li>GNN在知识图谱里怎么用</li>
+<li>讲文章（他竟然说没觉得我们方法创新？！说他有听过别的老师讲类似的方法，大概说了一下就是我们最开始的方法，我们19年上传上去的，绝对讲的是我们的哼！╭(╯^╰)╮）</li>
+<li>工作规划（十年后你想成为什么。。CEO、诺贝尔科学家啥…聊人生就是）</li>
+<li>有什么offer(这个还蛮重要的)</li>
+<li>问我有什么问题（我提前想了一些关于业务算法结合的问题感觉他反馈还不错，还有就是问我自己的缺点，他说我落地的少…然后问我笔试为啥0分..尴尬..）</li>
+</ul>
+<h2 id="大安全三面"><a href="#大安全三面" class="headerlink" title="大安全三面"></a>大安全三面</h2><p>应该是同部门不同组的交叉面，大概30-40分钟。</p>
+<ul>
+<li>自我介绍</li>
+<li>讲文章..</li>
+<li>讲一下图神经网络</li>
+<li>问我有啥问题吗hh（给我讲了GNN在风控的应用啥的，收获颇丰嘻嘻）</li>
+</ul>
+<h2 id="大安全HR面"><a href="#大安全HR面" class="headerlink" title="大安全HR面"></a>大安全HR面</h2><p>HR约了视频面，感觉这个hr还是很老练的，对技术也了解一些，对团队整体规划也很懂。</p>
+<ul>
+<li>问我几场面试下来对大安全的了解</li>
+<li>让我介绍下最有成就感的实习（我就两段。。全介绍了）</li>
+<li>梳理下自己的成长经历，有没有转折点</li>
+<li>遇到过什么困难和挫折、怎么解决的、结合到工作比如业务提需求，需要很新的技术，准备怎么一步一步攻克以及和业务沟通之类的</li>
+<li>成长经历中最不喜欢自己处于什么状态（这个问题有点东西。。。）</li>
+<li>朋友对你的评价、你对自己的评价</li>
+<li>工作职业规划、最理想的工作状态</li>
+<li>offer对比和偏好</li>
+<li>城市的偏好</li>
+</ul>
+<p>后来做的笔试题应该是补充笔试作用，占比情况不清楚。不过整个流程不是很快，很大一部分原因是大家工作真的真的真的很忙…但是有别的公司offer会提前安排流程的！</p>
+<hr>
+<h1 id="百度"><a href="#百度" class="headerlink" title="百度"></a>百度</h1><p>再来的面试就是百度了。。百度是大类招人，一个城市所有的算法hc都集中起来，分批找好几个周末进行面试，我大概三月底做了笔试，预约了4.12上午10点在牛客网上的面试，本以为是一场，面完赶紧做阿里笔试题来着，结果三场面试连着来…(挂掉一场就over了)</p>
+<p>度的面试没有记得很清楚，只能凭借印象写一写。但整体还是很偏NLP以及搜索推荐的，笔试里也能看出来，有涉及到算法和搜索推荐业务的结合，考察思维和逻辑。</p>
+<h2 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h2><ul>
+<li>讲一个最熟悉的项目</li>
+<li>问了一套二阶段目标检测的算法</li>
+<li>讲一讲textRank，跟TF-IDF什么区别，依赖词频吗（这个没回答出来）</li>
+<li>模型效果不好的时候怎么办（讲了过拟合、欠拟合以及解决办法）</li>
+<li>dropout原理和训练测试的区别</li>
+<li>问了环形链表入口以及判断</li>
+<li>海量文本处理（分布式处理）</li>
+<li>一道code题，输出字符串中不重复的最长字符串长度</li>
+</ul>
+<h2 id="二面"><a href="#二面" class="headerlink" title="二面"></a>二面</h2><ul>
+<li>讲项目文章</li>
+<li>讲熟悉的机器学习算法（我讲的XGBoost）</li>
+<li>跟搜索推荐结合，问我对于搜索推荐定义正样本实际上权重不相同，有什么解决办法</li>
+<li>对于新闻类型的消息，没有用户之前的搜索和访问浏览，如何推荐此类的新闻？</li>
+<li>代码上写了个快排</li>
+</ul>
+<h2 id="三面"><a href="#三面" class="headerlink" title="三面"></a>三面</h2><p>三面是一个小姐姐！她刚升了管理，人特别好！差不多也就是聊了一些自身的优点缺点、工作规划、为什么喜欢算法之类、如何给用户推荐（基于用户喜好推荐和基于理解推荐）……</p>
+<p>最后出了个逻辑题：</p>
+<p>给8个球，只有一个比别的轻，给一个天平，如何在最坏的情况下称的次数最少？</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/%E9%9D%A2%E7%BB%8F/" rel="tag"># 面经</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/24/plan/" rel="next" title="Blog 计划">
+                <i class="fa fa-chevron-left"></i> Blog 计划
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/03/scala/" rel="prev" title="Scala语言学习一">
+                Scala语言学习一 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/myphoto.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fangqingliu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E7%BB%8F%E5%8E%86"><span class="nav-number">1.</span> <span class="nav-text">个人经历</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BE%8E%E5%9B%A2%E7%82%B9%E8%AF%84"><span class="nav-number">2.</span> <span class="nav-text">美团点评</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E4%B8%80%E9%9D%A2"><span class="nav-number">2.1.</span> <span class="nav-text">视频一面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E4%BA%8C%E9%9D%A2"><span class="nav-number">2.2.</span> <span class="nav-text">视频二面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%85%BE%E8%AE%AF"><span class="nav-number">3.</span> <span class="nav-text">腾讯</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NLP%E4%B8%80%E9%9D%A2%E7%94%B5%E8%AF%9D"><span class="nav-number">3.1.</span> <span class="nav-text">NLP一面电话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E4%B8%80%E9%9D%A2%E8%A7%86%E9%A2%91"><span class="nav-number">3.2.</span> <span class="nav-text">推荐一面视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E4%BA%8C%E9%9D%A2%E8%A7%86%E9%A2%91"><span class="nav-number">3.3.</span> <span class="nav-text">推荐二面视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E4%B8%89%E9%9D%A2%E8%A7%86%E9%A2%91"><span class="nav-number">3.4.</span> <span class="nav-text">推荐三面视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90HR%E7%94%B5%E9%9D%A2"><span class="nav-number">3.5.</span> <span class="nav-text">推荐HR电面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BF%E9%87%8C"><span class="nav-number">4.</span> <span class="nav-text">阿里</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%BF%E5%91%8A%E6%8A%80%E6%9C%AF%E7%94%B5%E9%9D%A2%E4%B8%80"><span class="nav-number">4.1.</span> <span class="nav-text">广告技术电面一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E6%8E%A8%E8%8D%90%E9%83%A8%E9%97%A8%E7%94%B5%E9%9D%A2%E4%B8%80"><span class="nav-number">4.2.</span> <span class="nav-text">搜索推荐部门电面一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%AE%89%E5%85%A8%E4%B8%80%E9%9D%A2"><span class="nav-number">4.3.</span> <span class="nav-text">大安全一面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%AE%89%E5%85%A8%E4%BA%8C%E9%9D%A2"><span class="nav-number">4.4.</span> <span class="nav-text">大安全二面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%AE%89%E5%85%A8%E4%B8%89%E9%9D%A2"><span class="nav-number">4.5.</span> <span class="nav-text">大安全三面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%AE%89%E5%85%A8HR%E9%9D%A2"><span class="nav-number">4.6.</span> <span class="nav-text">大安全HR面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%99%BE%E5%BA%A6"><span class="nav-number">5.</span> <span class="nav-text">百度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E9%9D%A2"><span class="nav-number">5.1.</span> <span class="nav-text">一面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E9%9D%A2"><span class="nav-number">5.2.</span> <span class="nav-text">二面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E9%9D%A2"><span class="nav-number">5.3.</span> <span class="nav-text">三面</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Erica Liu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'fangqingliu',
+            repo: 'fangqingliu.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '5107440056307f082d0a7641277cdda5c760349d',
+            
+                client_id: '5a75f1ab5ff94b2aaaac'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
